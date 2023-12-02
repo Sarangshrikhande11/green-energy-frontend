@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    
+    <title>User Dashboard - EcoEnergix</title>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white font-bold text-xl">EcoEnergix</div>
+            <div>
+                <a href="userdash.html" class="text-white hover:underline mx-2">User Dashboard</a>
+                <a href="bookappointment.html" class="text-white hover:underline mx-2">Book Appointment</a>
+                <a href="products.html" class="text-white hover:underline mx-2">Products</a>
+                <a href="cart.html" class="text-white hover:underline mx-2">Cart</a>
+                <a href="#" onclick="logOut()" class="text-white hover:underline mx-2">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto my-8">
+
+        <h1 class="text-4xl font-bold mb-4">User Dashboard</h1>
+
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Potential Savings</h2>
+            <p class="mb-4">You have saved €350 until now based on average usage of all users using Solar Energy.</p>
+
+            <canvas id="savingsChart" width="400" height="150"></canvas>
+            <script>
+                const savingsData = {
+                    labels: ['Without Solar', 'With Solar'],
+                    datasets: [{
+                        label: 'Enerygy Costs',
+                        data: [1000, 650],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(75, 192, 192, 1)',
+                        ],
+                        borderWidth: 1,
+                    }],
+                };
+
+                const ctx = document.getElementById('savingsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: savingsData,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                            },
+                        },
+                    },
+                });
+            </script>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Order History</h2>
+
+            <h3 class="text-xl font-bold mb-2">Appointments</h3>
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Date</th>
+                        <th class="py-2 px-4 border-b">Plan Type</th>
+                        <th class="py-2 px-4 border-b">Name</th>
+                        <th class="py-2 px-4 border-b">Email</th>
+                        <th class="py-2 px-4 border-b">Phone</th>
+                        <th class="py-2 px-4 border-b">Address</th>
+                    </tr>
+                </thead>
+                <tbody id="appptTable">
+                </tbody>
+            </table>
+
+            <h3 class="text-xl font-bold mb-2 mt-4">Product Orders</h3>
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Order Date</th>
+                        <th class="py-2 px-4 border-b">Product Name</th>
+                        <th class="py-2 px-4 border-b">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTable">
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <footer class="bg-gray-200 py-4 mt-auto">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-gray-700">Follow us on: <i class="fab fa-instagram mx-2"></i><i
+                    class="fab fa-facebook mx-2"></i><i class="fab fa-youtube mx-2"></i><i
+                    class="fab fa-twitter mx-2"></i></div>
+            <div class="text-gray-700">123 Main Street, Cityville, Country | Contact: +123 456 7890</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+
+        let logg = JSON.parse(localStorage.getItem("logintoken"));
+        if (logg == null) {
+            location.href = "index.html";
+            alert("Login first")
+        }
+
+        let token = JSON.parse(localStorage.getItem("logintoken"));
+
+        loadAppointments()
+        loadOrders()
+        
+        function logOut() {
+            if (localStorage.getItem('logintoken')) {
+                localStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+
+        function loadAppointments() {
+            fetchData(baseURL + '/users/appointments/',token?.access)
+                .then(data => {
+                    fillTable(data, 'appptTable', ['id', 'planname', 'name', 'email', 'phone', 'address'])
+                })
+                .catch(error => {
+                    console.error('Error in fetching data:', error);
+                });
+        }
+
+        function loadOrders() {
+            fetchData(baseURL + '/users/orders/',token?.access)
+                .then(data => {
+                    fillTable(data, 'appptTable', ['id', 'orderlist', 'orderedby', 'address', 'addrtype', 'pincode', 'paymentmode', 'totalamount'])
+                })
+                .catch(error => {
+                    console.error('Error in fetching data:', error);
+                });
+        }
+
+        function fillTable(dataArray, idtag, hdrlist, btnfn = null) {
+            const tableBody = document.getElementById(idtag);
+
+            dataArray.forEach(data => {
+                const row = document.createElement('tr');
+                row.style.textAlign='center'
+                let instr = '';
+                hdrlist.forEach(h => {
+                    if(h == 'id')
+                    {
+                        instr += `<td class='py-2 px-4 border-b' >${moment.unix(data[h]).format('LLL')}</td>\n`    
+                    }
+                    else
+                    instr += `<td>${data[h]}</td>\n`
+                })
+
+                row.innerHTML = instr;
+                row.classList.add('table-row');
+
+                tableBody.appendChild(row);
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

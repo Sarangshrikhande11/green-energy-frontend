@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Shopping Cart - EcoEnergix</title>
+
+    <!-- Style for selected category -->
+    <style>
+        .category-link.selected {
+            background-color: #4CAF50; /* Green color for selected category */
+            color: #fff; /* White text on selected background */
+        }
+    </style>
+
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white text-2xl font-bold">EcoEnergix</div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="text-white">Home</a>
+                <a href="solutions.html" class="text-white">Solutions</a>
+                <a href="products.html" class="text-white">Products</a>
+                <a href="contactus.html" class="text-white">Contact Us</a>
+                <a href="aboutus.html" class="text-white">About</a>
+                <a href="login.html" class="text-white">Sign Up/Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Page Content -->
+    <h2 style="margin: 5px 0px 0px 20px;" class="text-2xl font-bold ">Shopping Cart</h2>
+    <section class="container mx-auto mt-8 flex-grow flex">
+
+        <!-- Cart Items List -->
+        <div class="w-3/4" style="display: none;" id="cart-items-list">
+            <!-- Initial content will be replaced dynamically -->
+        </div>
+
+        <!-- Summary and Checkout -->
+        <div class="w-1/4 pl-8">
+            <div class="bg-gray-200 p-4 rounded">
+                <h2 class="text-xl font-bold mb-4">Proceed to Order</h2>
+                <!-- Add summary details here (total, items count, etc.) -->
+
+                <div class="mt-4">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Proceed</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-4 mt-8">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <!-- Social Links -->
+            <div class="flex space-x-4 mb-4 md:mb-0">
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <!-- Add more social links as needed -->
+            </div>
+
+            <!-- Contact Information -->
+            <div class="text-gray-600 text-center md:text-left">
+                <p>123 Main Street, Cityville, Country</p>
+                <p>Contact: +1 123-456-7890</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <!-- JavaScript code for category selection and products -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cartItemsList = document.getElementById('cart-items-list');
+    
+            const cartItems = [
+                { name: 'Product 1', image: 'https://via.placeholder.com/50' },
+                { name: 'Product 2', image: 'https://via.placeholder.com/50' },
+                // Add more cart items as needed
+            ];
+    
+            // Function to update the cart items list
+            function updateCart() {
+                const cartItemCards = cartItems.map(item => `
+                    <div class="flex items-center mb-4">
+                        <img src="${item.image}" alt="${item.name}" class="mr-2 rounded-md">
+                        <span>${item.name}</span>
+                    </div>
+                `).join('');
+    
+                cartItemsList.innerHTML = `<div>${cartItemCards}</div>`;
+            }
+    
+            // Initial update of the cart items
+            updateCart();
+        });
+    </script>
+</body>
+
+</html>

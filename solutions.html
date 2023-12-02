@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Solutions - EcoEnergix</title>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white font-bold text-xl">EcoEnergix</div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="text-white">Home</a>
+                <a href="solutions.html" class="text-white">Solutions</a>
+                <a href="products.html" class="text-white">Products</a>
+                <a href="contactus.html" class="text-white">Contact Us</a>
+                <a href="aboutus.html" class="text-white">About</a>
+                <a href="login.html" class="text-white">Sign Up/Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto my-8">
+
+        <h1 class="text-4xl font-bold mb-4">Solar Energy Plans</h1>
+
+        <!-- Solar Energy Plans Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Our Solar Energy Plans</h2>
+            <p class="mb-4">Choose from our range of solar energy plans tailored to meet your energy needs. Our plans include professional installation and maintenance for a hassle-free experience.</p>
+
+            <!-- Display different plans with details -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Plan 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Basic Plan</h3>
+                    <p class="mb-4">Ideal for small households</p>
+                    <p class="text-green-500 font-bold mb-2">Starting at €199/month</p>
+                    <button onclick="location.href='login.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Choose Plan</button>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Standard Plan</h3>
+                    <p class="mb-4">Perfect for medium-sized households</p>
+                    <p class="text-green-500 font-bold mb-2">Starting at €299/month</p>
+                    <button onclick="location.href='login.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Choose Plan</button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Premium Plan</h3>
+                    <p class="mb-4">For large households with high energy needs</p>
+                    <p class="text-green-500 font-bold mb-2">Starting at €499/month</p>
+                    <button onclick="location.href='login.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Choose Plan</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Savings and Incentives Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Cost Savings and Incentives</h2>
+            <p class="mb-4">By choosing our solar energy plans, you can enjoy significant cost savings on your energy bills. Additionally, take advantage of government incentives and grants to further reduce your initial investment.</p>
+        </section>
+
+        <!-- Call-to-Action Button -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Ready to Go Solar?</h2>
+            <p class="mb-4">Contact us today for more information about our solar energy plans and to start your journey towards a sustainable and cost-effective energy solution.</p>
+            <button onclick="location.href='contactus.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Get More Information</button>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-4 mt-auto">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-gray-700">Follow us on: <i class="fab fa-instagram mx-2"></i><i class="fab fa-facebook mx-2"></i><i class="fab fa-youtube mx-2"></i><i class="fab fa-twitter mx-2"></i></div>
+            <div class="text-gray-700">123 Main Street, Cityville, Country | Contact: +123 456 7890</div>
+        </div>
+    </footer>
+
+</body>
+</html>

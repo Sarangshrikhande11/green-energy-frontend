@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Admin Dashboard - EcoEnergix</title>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white font-bold text-xl">EcoEnergix Admin Dashboard</div>
+            <div>
+                <a href="admin.html" class="text-white hover:underline mx-2">Orders & Appointments</a>
+                <a href="adminproducts.html" class="text-white hover:underline mx-2">Manage Products</a>
+                <a href="#" onclick="logOut()" class="text-white hover:underline mx-2">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto my-8">
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Product List</h2>
+
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Product ID</th>
+                        <th class="py-2 px-4 border-b">Category</th>
+                        <th class="py-2 px-4 border-b">Name</th>
+                        <th class="py-2 px-4 border-b">Description</th>
+                        <th class="py-2 px-4 border-b">Img url</th>
+                        <th class="py-2 px-4 border-b">Price</th>
+                        <th class="py-2 px-4 border-b">Action</th>
+                        <th class="py-2 px-4 border-b">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTbl">
+                </tbody>
+            </table>
+        </section>
+
+        <section class="mb-8">
+            <h2 id="addedittxt" class="text-2xl font-bold mb-2">Add Product</h2>
+            <form action="javascript:subProd()" id="signupForm">
+                <div class="mb-4">
+                    <label for="prdcat" class="block text-gray-700 font-bold mb-2">Category</label>
+                    <select id="prdcat" class="w-full px-3 py-2 border rounded-md" name="prdcat">
+                        <option value="led">LEDs</option>
+                        <option value="smartthermo">Smart Thermostat</option>
+                        <option value="evcharge">EV Charging Stations</option>
+                        <option value="solarpanel">Solar Panels</option>
+                        <option value="eea">Energy-Efficient Appliances</option>
+                        <option value="homeenergy">Home Energy Storage</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="prdname" class="block text-gray-700 font-bold mb-2">Name</label>
+                    <input type="text" id="prdname" name="prdname" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="prddesc" class="block text-gray-700 font-bold mb-2">Description</label>
+                    <input type="text" id="prddesc" name="prddesc" class="w-full px-3 py-2 border rounded-md">
+                </div>
+
+                <div class="mb-4">
+                    <label for="productImage" class="block text-gray-700 font-bold mb-2">Image</label>
+                    <input type="file" id="productImage" accept="image/*" name="productImage"
+                        class="w-full px-3 py-2 border rounded-md">
+                </div>
+
+
+                <div class="mb-4">
+                    <label for="prdPrice" class="block text-gray-700 font-bold mb-2">Price</label>
+                    <input type="number" id="prdPrice" name="prdPrice" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <button id="addeditbtntxt" type="submit"
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Add</button>
+            </form>
+
+        </section>
+
+    </div>
+
+    <footer class="bg-gray-200 py-4 mt-auto">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-gray-700">Follow us on: <i class="fab fa-instagram mx-2"></i><i
+                    class="fab fa-facebook mx-2"></i><i class="fab fa-youtube mx-2"></i><i
+                    class="fab fa-twitter mx-2"></i></div>
+            <div class="text-gray-700">123 Main Street, Cityville, Country | Contact: +123 456 7890</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        let currEditObj = null;
+        let isEditMode = false;
+        loadProducts()
+
+        function loadProducts() {
+            fetchData(baseURL + '/myadmin/viewallproducts')
+                .then(data => {
+                    fillTable(data, 'productsTbl', ['id', 'categoryname', 'name', 'desc', 'imgurl', 'price'])
+                })
+                .catch(error => {
+                    console.error('Error in fetching data:', error);
+                });
+        }
+
+
+        function fillTable(dataArray, idtag, hdrlist, btnfn = null) {
+            const tableBody = document.getElementById(idtag);
+
+            dataArray.forEach(data => {
+                const row = document.createElement('tr');
+                row.style.textAlign = 'center'
+                let instr = '';
+                hdrlist.forEach(h => {
+                    instr += `<td>${data[h]}</td>\n`
+                })
+                row.innerHTML = instr;
+
+                const actionsCell1 = document.createElement('td');
+                const custBtn1 = document.createElement('button');
+                custBtn1.textContent = 'Edit';
+                custBtn1.classList.add(...(('bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded').split(' ')));
+                custBtn1.onclick = function () {
+                    showEdit(data)
+                };
+
+
+                const actionsCell2 = document.createElement('td');
+                const custBtn2 = document.createElement('button');
+                custBtn2.textContent = 'Delete';
+                custBtn2.classList.add(...(('bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded').split(' ')));
+                custBtn2.onclick = function () {
+                    deleteEntry(data);
+                };
+
+                actionsCell1.appendChild(custBtn1);
+                actionsCell2.appendChild(custBtn2);
+                row.appendChild(actionsCell1);
+                row.appendChild(actionsCell2);
+
+
+                row.classList.add('table-row');
+
+                tableBody.appendChild(row);
+            });
+
+        }
+
+        function subProd() {
+            let token = JSON.parse(localStorage.getItem("logintoken"));
+            const fileInput = document.getElementById('productImage');
+            const imageFile = fileInput.files[0];
+            if(imageFile)
+            {
+                const fileExtension = imageFile.name.split('.').pop();
+            // Convert the image file to base64
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                // const base64Image = reader.result;
+                const base64Image = reader.result.split(',')[1];
+                selectedB64 = base64Image
+                selectedExt = fileExtension
+
+                fetch(baseURL + '/uploadimg/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        b64: selectedB64,
+                        ext: selectedExt
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data?.success?.length > 0) {
+                            if (isEditMode) {
+                                postData(baseURL + '/myadmin/editproduct', {
+                                    id:currEditObj['id'],
+                                    categoryid: document.getElementById('prdcat').value,
+                                    categoryname: document.getElementById('prdcat').value,
+                                    name: document.getElementById('prdname').value,
+                                    desc: document.getElementById('prddesc').value,
+                                    "imgurl": data?.success,
+                                    price: document.getElementById('prdPrice').value
+                                })
+                                    .then(data => {
+                                        location.reload();
+                                    })
+                            }
+                            else {
+                                postData(baseURL + '/myadmin/addproduct', {
+                                    categoryid: document.getElementById('prdcat').value,
+                                    categoryname: document.getElementById('prdcat').value,
+                                    name: document.getElementById('prdname').value,
+                                    desc: document.getElementById('prddesc').value,
+                                    "imgurl": data?.success,
+                                    price: document.getElementById('prdPrice').value
+                                })
+                                    .then(data => {
+                                        location.reload();
+                                    })
+                            }
+
+
+                        }
+
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+
+            };
+            reader.readAsDataURL(imageFile);
+
+            }
+            else
+            alert("Please upload image too")
+
+
+        }
+
+
+        function showEdit(data) {
+            console.log(data);
+            isEditMode = true;
+            currEditObj = data;
+            document.getElementById('addedittxt').textContent = 'Edit Product'
+            document.getElementById('addeditbtntxt').textContent = "Edit"
+
+            document.getElementById('prdcat').value = data.categoryid;
+            document.getElementById('prdname').value = data.name;
+            document.getElementById('prddesc').value = data.desc;
+            document.getElementById('prdPrice').value = data.price;
+        }
+
+        function deleteEntry(data) {
+            let token = JSON.parse(localStorage.getItem("logintoken"));
+            postData(baseURL + '/myadmin/deleteproduct', { 'id': data?.id }, token?.access)
+                .then(data => {
+                    location.reload();
+                })
+        }
+
+    </script>
+
+</body>
+
+</html>

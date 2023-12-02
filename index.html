@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>EcoEnergix</title>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white text-2xl font-bold">EcoEnergix</div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="text-white">Home</a>
+                <a href="solutions.html" class="text-white">Solutions</a>
+                <a href="products.html" class="text-white">Products</a>
+                <a href="contactus.html" class="text-white">Contact Us</a>
+                <a href="aboutus.html" class="text-white">About</a>
+                <a href="login.html" class="text-white">Sign Up/Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-8 flex-grow">
+        <!-- Your content goes here -->
+        <h1 class="text-4xl font-bold mb-4">Welcome to EcoEnergix</h1>
+        <p class="text-lg">Discover sustainable solar energy solutions for your home.</p>
+        <!-- Add more content as needed -->
+
+
+        <!-- Join EcoEnergix Section with Blurred Background Image -->
+        <section class="text-center mt-8 relative bg-cover bg-center bg-blur"
+            style="background-image: url('bgimg.jpeg'); height: 200px;">
+            <div class="absolute inset-0 bg-black opacity-50"></div> <!-- Overlay to enhance text visibility -->
+            <div class="flex items-center justify-center h-full relative z-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Join Ireland's 200,000+ households</h2>
+                    <p class="text-lg text-gray-200">With EcoEnergix, you can manage your usage online, get a great
+                        bargain on your home energy, and receive discounts on major products.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Book Consultation Section -->
+        <section class="text-center mt-8">
+            <div class="container mx-auto">
+                <h2 class="text-3xl font-bold mb-4">Discover a Greener Tomorrow with Our Energy Consultation</h2>
+                <p class="text-lg text-gray-600">Unlock the potential for a sustainable future! Our expert consultants
+                    offer personalized energy audits and guidance to empower you in optimizing your energy usage.
+                    Uncover practical ways to cut down on consumption, save on costs, and smoothly transition to
+                    eco-friendly, green energy sources.</p>
+                <button onclick="location.href='login.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 mt-4 rounded">Book Your
+                    Consultation</button>
+            </div>
+        </section>
+
+        <!-- Our Products Section -->
+        <section class="bg-gray-100 py-8">
+            <div class="container mx-auto">
+                <h2 class="text-3xl font-bold mb-4">Explore Our Products</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Product Card 1 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="leds.png" alt="Product 1"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">LEDs</h3>
+                        <p class="text-gray-600">Illuminate your space with energy-efficient LED lighting.</p>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="smartthermo.jpg" alt="Product 2"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">Smart Thermostat</h3>
+                        <p class="text-gray-600">Take control of your home's climate with our smart thermostat.</p>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="evcharge.jpg" alt="Product 3"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">EV Charging Stations</h3>
+                        <p class="text-gray-600">Charge your electric vehicle conveniently at home.</p>
+                    </div>
+
+                    <!-- Product Card 4 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="solar.jpg" alt="Product 4"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">Solar Panels</h3>
+                        <p class="text-gray-600">Harness the power of the sun to generate clean and renewable energy.
+                        </p>
+                    </div>
+
+                    <!-- Product Card 5 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="energyeff.png" alt="Product 5"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">Energy-Efficient Appliances</h3>
+                        <p class="text-gray-600">Upgrade to appliances that save energy without compromising
+                            performance.</p>
+                    </div>
+
+                    <!-- Product Card 6 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="homeenergy.jpg" alt="Product 6"
+                            class="mb-4 w-full h-32 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mb-2">Home Energy Storage</h3>
+                        <p class="text-gray-600">Store excess energy for later use and reduce reliance on the grid.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div style="    display: flex;
+        justify-content: center;">
+            <button onclick="location.href='products.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 mt-4 rounded">View All
+                Products</button>
+        </div>
+
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-4 mt-8">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <!-- Social Links -->
+            <div class="flex space-x-4 mb-4 md:mb-0">
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <!-- Add more social links as needed -->
+            </div>
+
+            <!-- Contact Information -->
+            <div class="text-gray-600 text-center md:text-left">
+                <p>123 Main Street, Cityville, Country</p>
+                <p>Contact: +1 123-456-7890</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Contact Us - EcoEnergix</title>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white text-2xl font-bold">
+                EcoEnergix</div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="text-white">Home</a>
+                <a href="solutions.html" class="text-white">Solutions</a>
+                <a href="products.html" class="text-white">Products</a>
+                <a href="contactus.html" class="text-white">Contact Us</a>
+                <a href="aboutus.html" class="text-white">About</a>
+                <a href="login.html" class="text-white">Sign Up/Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Us Form Section -->
+    <section class="container mx-auto mt-8 flex-grow">
+        <h1 class="text-4xl font-bold mb-8">Contact Us</h1>
+
+        <!-- Contact Form -->
+        <form action="javascript:submitform()" class="max-w-md mx-auto">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-3 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label for="message" class="block text-gray-700 font-bold mb-2">Message</label>
+                <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border rounded-md"></textarea>
+            </div>
+
+            <button type="submit"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-4 mt-8">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <!-- Social Links -->
+            <div class="flex space-x-4 mb-4 md:mb-0">
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-green-500">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <!-- Add more social links as needed -->
+            </div>
+
+            <!-- Contact Information -->
+            <div class="text-gray-600 text-center md:text-left">
+                <p>123 Main Street, Cityville, Country</p>
+                <p>Contact: +1 123-456-7890</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+
+        function submitform() {
+            let name = document.getElementById('name').value;
+            let message = document.getElementById('message').value;
+            let email = document.getElementById('email').value;
+            if(name?.length > 0 && message?.length && email?.length)
+            {
+                postData(baseURL + '/users/submitform/', {
+                name,
+                email,
+                message
+            })
+                .then(data => {
+                    alert("Form Submitted Successfully")
+                })
+            }
+            else
+            {
+                alert("Fill all fields before submitting")
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
