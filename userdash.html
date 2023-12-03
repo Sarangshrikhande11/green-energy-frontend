@@ -73,7 +73,7 @@
         </section>
 
         <section class="mb-8">
-            <h2 class="text-2xl font-bold mb-2">Order History</h2>
+            <h2 class="text-2xl font-bold mb-2">History</h2>
 
             <h3 class="text-xl font-bold mb-2">Appointments</h3>
             <table class="min-w-full bg-white border border-gray-300">
@@ -91,13 +91,17 @@
                 </tbody>
             </table>
 
+            
             <h3 class="text-xl font-bold mb-2 mt-4">Product Orders</h3>
             <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border-b">Order Date</th>
-                        <th class="py-2 px-4 border-b">Product Name</th>
-                        <th class="py-2 px-4 border-b">Status</th>
+                        <th class="py-2 px-4 border-b">Order List</th>
+                        <th class="py-2 px-4 border-b">Order By</th>
+                        <th class="py-2 px-4 border-b">Address</th>
+                        <th class="py-2 px-4 border-b">Pincode</th>
+                        <th class="py-2 px-4 border-b">Total Amount</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTable">
@@ -151,7 +155,7 @@
         function loadOrders() {
             fetchData(baseURL + '/users/orders/',token?.access)
                 .then(data => {
-                    fillTable(data, 'appptTable', ['id', 'orderlist', 'orderedby', 'address', 'addrtype', 'pincode', 'paymentmode', 'totalamount'])
+                    fillTable(data, 'ordersTable', ['id', 'orderlist', 'orderedby', 'address', 'pincode', 'totalamount'])
                 })
                 .catch(error => {
                     console.error('Error in fetching data:', error);
@@ -169,6 +173,11 @@
                     if(h == 'id')
                     {
                         instr += `<td class='py-2 px-4 border-b' >${moment.unix(data[h]).format('LLL')}</td>\n`    
+                    }
+                    else
+                    if(h == 'orderlist')
+                    {
+                        instr += `<td>${(data[h]).replaceAll('\n','<br/>')}</td>\n`    
                     }
                     else
                     instr += `<td>${data[h]}</td>\n`

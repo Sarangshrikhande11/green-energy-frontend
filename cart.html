@@ -12,8 +12,10 @@
     <!-- Style for selected category -->
     <style>
         .category-link.selected {
-            background-color: #4CAF50; /* Green color for selected category */
-            color: #fff; /* White text on selected background */
+            background-color: #4CAF50;
+            /* Green color for selected category */
+            color: #fff;
+            /* White text on selected background */
         }
     </style>
 
@@ -24,14 +26,12 @@
     <!-- Navbar -->
     <nav class="bg-green-500 p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white text-2xl font-bold">EcoEnergix</div>
+            <div style="cursor: pointer;" onclick="location.href='index.html'" class="text-white text-2xl font-bold">
+                EcoEnergix</div>
             <div class="flex space-x-4">
-                <a href="index.html" class="text-white">Home</a>
-                <a href="solutions.html" class="text-white">Solutions</a>
+                <a href="userdash.html" class="text-white hover:underline mx-2">User Dashboard</a>
                 <a href="products.html" class="text-white">Products</a>
-                <a href="contactus.html" class="text-white">Contact Us</a>
-                <a href="aboutus.html" class="text-white">About</a>
-                <a href="login.html" class="text-white">Sign Up/Login</a>
+                <a href="#" onclick="logOut()" class="text-white hover:underline mx-2">Logout</a>
             </div>
         </div>
     </nav>
@@ -41,7 +41,7 @@
     <section class="container mx-auto mt-8 flex-grow flex">
 
         <!-- Cart Items List -->
-        <div class="w-3/4" style="display: none;" id="cart-items-list">
+        <div class="w-3/4" id="cart-items-list">
             <!-- Initial content will be replaced dynamically -->
         </div>
 
@@ -49,10 +49,25 @@
         <div class="w-1/4 pl-8">
             <div class="bg-gray-200 p-4 rounded">
                 <h2 class="text-xl font-bold mb-4">Proceed to Order</h2>
-                <!-- Add summary details here (total, items count, etc.) -->
-
+                <div>Cart Total : € <span id="ttll"></span> </div>
+                <div>
+                    <div class="mb-4">
+                        <label for="pincode" class="block text-gray-700 font-bold mb-2">Pincode</label>
+                        <input type="text" id="pincode" name="pincode" class="w-full px-3 py-2 border rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-gray-700 font-bold mb-2">Address</label>
+                        <input type="text" id="address" name="address" class="w-full px-3 py-2 border rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="paymenttype" class="block text-gray-700 font-bold mb-2">Payment Type</label>
+                        <input type="text" value="Card" id="paymenttype" readonly disabled="true" name="paymenttype"
+                            class="w-full px-3 py-2 border rounded-md">
+                    </div>
+                </div>
                 <div class="mt-4">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Proceed</button>
+                    <button onclick="completeCheckout()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Complete
+                        Order</button>
                 </div>
             </div>
         </div>
@@ -91,30 +106,117 @@
 
     <!-- JavaScript code for category selection and products -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+
+        let logg = JSON.parse(localStorage.getItem("logintoken"));
+        if (logg == null) {
+            location.href = "login.html";
+            alert("Login first")
+        }
+
+        let cartObj = [];
+
+
+        // updateCart(cartItems);
+        getLatestCart()
+
+        function updateCart(cartItems) {
             const cartItemsList = document.getElementById('cart-items-list');
-    
-            const cartItems = [
-                { name: 'Product 1', image: 'https://via.placeholder.com/50' },
-                { name: 'Product 2', image: 'https://via.placeholder.com/50' },
-                // Add more cart items as needed
-            ];
-    
-            // Function to update the cart items list
-            function updateCart() {
-                const cartItemCards = cartItems.map(item => `
+            const cartItemCards = cartItems.map(item => `
                     <div class="flex items-center mb-4">
-                        <img src="${item.image}" alt="${item.name}" class="mr-2 rounded-md">
-                        <span>${item.name}</span>
+                        <img width='100' src="${item.imgurl}" class="mr-2 rounded-md">
+                        <div style="display:flex;flex-direction:column;width:150px" >
+                            <span>${item.name}</span>
+                            <span>Price: € ${item.price}</span>
+                            <span>Quantity: ${item.quantity}</span>
+                            <span>Total: € ${Number(item.quantity) * Number(item.price)}</span>
+                        </div>
+                        <div>
+                            <button onclick="addP(${item.id})" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" > +
+                            </button>
+                            <button onclick="rmP(${item.id})" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" > -
+                            </button>
+                            <button onclick="delP(${item.id})" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" > Remove
+                            </button>
+                        </div> 
+                       
                     </div>
                 `).join('');
-    
-                cartItemsList.innerHTML = `<div>${cartItemCards}</div>`;
+
+            cartItemsList.innerHTML = `<div>${cartItemCards}</div>`;
+        }
+
+        async function getLatestCart() {
+            cartObj = await getCart()
+            console.log('cartObj', cartObj);
+            updateCart(cartObj)
+
+            let total = 0;
+            cartObj.map(c => {
+                total += Number(c.quantity) * Number(c.price)
+            })
+            document.getElementById('ttll').textContent = total;
+        }
+
+        function addP(pid) {
+            addToCart(cartObj.find(c => c.id == pid))
+            location.reload();
+
+        }
+
+        function rmP(pid) {
+            console.log(cartObj.find(c => c.id == pid));
+            reduceQantity(cartObj.find(c => c.id == pid))
+            location.reload();
+        }
+
+        function delP(pid) {
+            console.log(cartObj.find(c => c.id == pid));
+            deleteFromCart(cartObj.find(c => c.id == pid))
+            location.reload();
+        }
+
+        function logOut() {
+            if (localStorage.getItem('logintoken')) {
+                localStorage.clear();
+                window.location.href = "index.html";
             }
-    
-            // Initial update of the cart items
-            updateCart();
-        });
+        }
+
+        async function completeCheckout() {
+            cartObj = await getCart()
+            let detailsStr = "";
+            let total = 0;
+            cartObj.forEach(c => {
+                detailsStr += `${c.name}\nprice : €${c.price}\nquantity : ${c.quantity}\nTotal : €${Number(c.price) * Number(c.quantity)}\n\n`
+                total += Number(c.quantity) * Number(c.price)
+            })
+
+            let pinCode = document.getElementById('pincode').value;
+            let address = document.getElementById('address').value;
+            if (cartObj.length > 0 && String(pinCode).length > 0 && address.length > 0) {
+                let token = JSON.parse(localStorage.getItem("logintoken"));
+                postData(baseURL + '/users/completeorder', {
+                    "totalamount": total,
+                    "orderlist": detailsStr,
+                    "pincode": pinCode,
+                    "addrtype": 'default',
+                    "address": address,
+                    "paymentmode": 'card'
+                }, token?.access)
+                    .then(data2 => {
+                        console.log('Data received:', data2);
+                        emptyCart();
+                        alert("Order Successful")
+                        location.reload();
+                    })
+                    .catch(error2 => {
+                        console.error('Error in posting data:', error2);
+                    });
+            }
+            else
+            alert("Fill all the fields")
+
+        }
     </script>
 </body>
 
