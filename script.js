@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:8000';
+const baseURL = 'http://staticsite-cpp.s3-website-us-east-1.amazonaws.com';
 
 const fetchData = (url, token = '') => {
     let hdrr = {
