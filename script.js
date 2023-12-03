@@ -1,4 +1,4 @@
-const baseURL = 'http://staticsite-cpp.s3-website-us-east-1.amazonaws.com';
+const baseURL = 'http://my-env2.eba-ywmjxpre.us-east-1.elasticbeanstalk.com';
 
 const fetchData = (url, token = '') => {
     let hdrr = {
