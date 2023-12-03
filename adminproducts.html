@@ -101,6 +101,13 @@
     <script src="script.js"></script>
 
     <script>
+
+        let logg = JSON.parse(localStorage.getItem("admintoken"));
+        if (logg == null) {
+            location.href = 'admin.html'
+        }
+
+
         let currEditObj = null;
         let isEditMode = false;
         loadProducts()
