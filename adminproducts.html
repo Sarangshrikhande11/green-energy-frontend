@@ -162,74 +162,73 @@
             let token = JSON.parse(localStorage.getItem("logintoken"));
             const fileInput = document.getElementById('productImage');
             const imageFile = fileInput.files[0];
-            if(imageFile)
-            {
+            if (imageFile) {
                 const fileExtension = imageFile.name.split('.').pop();
-            // Convert the image file to base64
-            const reader = new FileReader();
-            reader.onloadend = function () {
-                // const base64Image = reader.result;
-                const base64Image = reader.result.split(',')[1];
-                selectedB64 = base64Image
-                selectedExt = fileExtension
+                // Convert the image file to base64
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    // const base64Image = reader.result;
+                    const base64Image = reader.result.split(',')[1];
+                    selectedB64 = base64Image
+                    selectedExt = fileExtension
 
-                fetch(baseURL + '/uploadimg/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        b64: selectedB64,
-                        ext: selectedExt
-                    }),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        if (data?.success?.length > 0) {
-                            if (isEditMode) {
-                                postData(baseURL + '/myadmin/editproduct', {
-                                    id:currEditObj['id'],
-                                    categoryid: document.getElementById('prdcat').value,
-                                    categoryname: document.getElementById('prdcat').value,
-                                    name: document.getElementById('prdname').value,
-                                    desc: document.getElementById('prddesc').value,
-                                    "imgurl": data?.success,
-                                    price: document.getElementById('prdPrice').value
-                                })
-                                    .then(data => {
-                                        location.reload();
-                                    })
-                            }
-                            else {
-                                postData(baseURL + '/myadmin/addproduct', {
-                                    categoryid: document.getElementById('prdcat').value,
-                                    categoryname: document.getElementById('prdcat').value,
-                                    name: document.getElementById('prdname').value,
-                                    desc: document.getElementById('prddesc').value,
-                                    "imgurl": data?.success,
-                                    price: document.getElementById('prdPrice').value
-                                })
-                                    .then(data => {
-                                        location.reload();
-                                    })
-                            }
-
-
-                        }
-
+                    fetch(baseURL + '/uploadimg/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            b64: selectedB64,
+                            ext: selectedExt
+                        }),
                     })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data?.success?.length > 0) {
+                                if (isEditMode) {
+                                    postData(baseURL + '/myadmin/editproduct', {
+                                        id: currEditObj['id'],
+                                        categoryid: document.getElementById('prdcat').value,
+                                        categoryname: document.getElementById('prdcat').value,
+                                        name: document.getElementById('prdname').value,
+                                        desc: document.getElementById('prddesc').value,
+                                        "imgurl": data?.success,
+                                        price: document.getElementById('prdPrice').value
+                                    })
+                                        .then(data => {
+                                            location.reload();
+                                        })
+                                }
+                                else {
+                                    postData(baseURL + '/myadmin/addproduct', {
+                                        categoryid: document.getElementById('prdcat').value,
+                                        categoryname: document.getElementById('prdcat').value,
+                                        name: document.getElementById('prdname').value,
+                                        desc: document.getElementById('prddesc').value,
+                                        "imgurl": data?.success,
+                                        price: document.getElementById('prdPrice').value
+                                    })
+                                        .then(data => {
+                                            location.reload();
+                                        })
+                                }
 
 
-            };
-            reader.readAsDataURL(imageFile);
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
+                };
+                reader.readAsDataURL(imageFile);
 
             }
             else
-            alert("Please upload image too")
+                alert("Please upload image too")
 
 
         }
@@ -254,6 +253,11 @@
                 .then(data => {
                     location.reload();
                 })
+        }
+
+        function logOut() {
+            localStorage.removeItem("admintoken");
+            window.location.href = "admin.html";
         }
 
     </script>

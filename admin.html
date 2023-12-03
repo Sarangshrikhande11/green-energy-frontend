@@ -81,7 +81,7 @@
         loadOrders()
         loadAppointments()
 
-        function loadOrders(){
+        function loadOrders() {
             fetchData(baseURL + '/myadmin/viewallorders')
                 .then(data => {
                     fillTable(data, 'ordersTable', ['id', 'orderlist', 'orderedby', 'address', 'pincode', 'paymentmode', 'totalamount'])
@@ -91,7 +91,7 @@
                 });
         }
 
-        function loadAppointments(){
+        function loadAppointments() {
             fetchData(baseURL + '/myadmin/viewallappointments')
                 .then(data => {
                     fillTable(data, 'apptTable', ['id', 'planname', 'email', 'phone'])
@@ -106,7 +106,7 @@
 
             dataArray.forEach(data => {
                 const row = document.createElement('tr');
-                row.style.textAlign='center'
+                row.style.textAlign = 'center'
                 let instr = '';
                 hdrlist.forEach(h => {
                     instr += `<td>${data[h]}</td>\n`
@@ -118,6 +118,11 @@
                 tableBody.appendChild(row);
             });
 
+        }
+
+        function logOut() {
+            localStorage.removeItem("admintoken");
+            window.location.href = "admin.html";
         }
 
     </script>
